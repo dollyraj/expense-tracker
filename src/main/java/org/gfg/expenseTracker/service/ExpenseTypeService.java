@@ -1,6 +1,6 @@
 package org.gfg.expenseTracker.service;
 
-import org.gfg.expenseTracker.exceptionHandling.NoResourceFoundException;
+import org.gfg.expenseTracker.exceptionHandling.CustomException;
 import org.gfg.expenseTracker.model.ExpenseTypes;
 import org.gfg.expenseTracker.model.User;
 import org.gfg.expenseTracker.model.UserStatus;
@@ -27,9 +27,12 @@ public class ExpenseTypeService {
         if(expenseTypesFromDB == null){
             ExpenseTypes expenseTypes = expenseTypeRequest.toExpenseTypes();
             expenseTypesFromDB = expenseTypeRepository.save(expenseTypes);
+        }else{
+            throw new CustomException("ExpenseType is already there,so not adding again");
         }
         // handle ->  user is not present -> say -> then we will create an entry
         User userFromDB = userRepository.findByEmail(expenseTypesFromDB.getCreatedBy());
+
         if(userFromDB == null){
             User user = User.builder().
                     email(expenseTypeRequest.getUserEmail()).
@@ -38,8 +41,12 @@ public class ExpenseTypeService {
             userFromDB = userRepository.save(user);
         }
 
+        //checking user status
+
+
         if(userFromDB!=null && !userFromDB.getUserStatus().equals("ACTIVE")){
-            throw new NoResourceFoundException("User should be in ACTIVE state to make changes.Current user status is:"+userFromDB.getUserStatus());
+
+            throw new CustomException("User should be in ACTIVE state to add expense types.Current user status is:"+userFromDB.getUserStatus());
         }
 
 
@@ -55,7 +62,7 @@ public class ExpenseTypeService {
     public List<ExpenseTypes> getAllExpenseTypes() {
         List<ExpenseTypes> list=expenseTypeRepository.findAll();
         if(list.isEmpty()){
-            throw new NoResourceFoundException("No expense type is available");
+            throw new CustomException("No expense type is available");
         }
         return list;
     }

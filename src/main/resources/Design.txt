@@ -58,7 +58,7 @@ APIs:
         getAllUsers -> GET
         getAllExpenseType -> GET
         searchUser ->GET
-
+        updateUserProfile -> PUT
 
 
 

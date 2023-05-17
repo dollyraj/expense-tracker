@@ -1,20 +1,19 @@
 package org.gfg.expenseTracker.service;
 
-import org.gfg.expenseTracker.exceptionHandling.NoResourceFoundException;
+import org.gfg.expenseTracker.exceptionHandling.CustomException;
 import org.gfg.expenseTracker.model.User;
 import org.gfg.expenseTracker.model.UserStatus;
 import org.gfg.expenseTracker.repository.UserRepository;
 import org.gfg.expenseTracker.request.CreateUserRequest;
 import org.gfg.expenseTracker.request.UpdateUserRequest;
 import org.gfg.expenseTracker.response.CreateUserResponse;
-import org.gfg.expenseTracker.response.GenericResponse;
 import org.gfg.expenseTracker.response.UpdateUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class UserService {
@@ -25,7 +24,7 @@ public class UserService {
         User userFromDb = userRepository.findByEmail(createUserRequest.getEmail());
         if(userFromDb == null){
             User user = createUserRequest.toUser();
-            user.setUserStatus(UserStatus.ACTIVE);
+            user.setUserStatus(UserStatus.INACTIVE);
             userFromDb = userRepository.save(user);
         }
         CreateUserResponse createUserResponse = CreateUserResponse.builder().userId(userFromDb.getId()).build();
@@ -38,7 +37,7 @@ public class UserService {
         List<User> list=userRepository.findAll();
 
         if(list.isEmpty()){
-            throw new NoResourceFoundException("No user is not found");
+            throw new CustomException("No user is not found");
         }
 
         return list;
@@ -48,7 +47,7 @@ public class UserService {
     public UpdateUserResponse updateUserProfile(UpdateUserRequest updateUserRequest,Integer userId) {
 
         if(userRepository.findById(userId).isEmpty()){
-            throw new NoResourceFoundException("Given user does not exist");
+            throw new CustomException("Given user does not exist");
         }
 
        User userFromDb=userRepository.findById(userId).get();

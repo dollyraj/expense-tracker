@@ -19,7 +19,7 @@ public class CreateTxnRequest {
 
     private String expenseType;
     private Double expenditureCost;
-    private LocalDate expenseDate;
+    private Date expenseDate;
 
     private String expenseNote;
 

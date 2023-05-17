@@ -26,8 +26,8 @@ public class ExceptionHandlers {
     }
 
 
-    @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<NotFoundApiResponse> resourceNotFoundExceptionHandler(NoResourceFoundException exception){
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<NotFoundApiResponse> resourceNotFoundExceptionHandler(CustomException exception){
         String message=exception.getMessage();
         NotFoundApiResponse apiResponse=new NotFoundApiResponse(message,false);
 

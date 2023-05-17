@@ -1,6 +1,6 @@
 package org.gfg.expenseTracker.service;
 
-import org.gfg.expenseTracker.exceptionHandling.NoResourceFoundException;
+import org.gfg.expenseTracker.exceptionHandling.CustomException;
 import org.gfg.expenseTracker.model.*;
 import org.gfg.expenseTracker.repository.ExpenseTypeRepository;
 import org.gfg.expenseTracker.repository.TxnDetailsRepository;
@@ -46,6 +46,10 @@ public class TxnService {
                     build();
             userFromDb = userRepository.save(user);
         }
+        //checking user status
+        if(userFromDb!=null && !userFromDb.getUserStatus().equals("ACTIVE")){
+            throw new CustomException("User should be in ACTIVE state to add transactions.Current user status is:"+userFromDb.getUserStatus());
+        }
 
         ExpenseTypes expenseTypesFromDb  = expenseTypeRepository.findByExpenseType(createTxnRequest.getExpenseType());
 
@@ -80,24 +84,43 @@ public class TxnService {
                     case EQUALS:
                         txnDetailsList.addAll(txnDetailsRepository.findByExpenditureAmount(Double.valueOf(values[0])));
                         break;
+                    case LESS_THAN:
+                        txnDetailsList.addAll(txnDetailsRepository.findByExpenditureAmountLessThan(Double.valueOf(values[0])));
+                        break;
                     case LESS_THAN_EQUALS:
                         txnDetailsList.addAll(txnDetailsRepository.findByExpenditureAmountLessThanEqual(Double.valueOf(values[0])));
                         break;
+                    case GREATER_THAN:
+                        txnDetailsList.addAll(txnDetailsRepository.findByExpenditureAmountGreaterThan(Double.valueOf(values[0])));
+                        break;
                     case GREATER_THAN_EQUALS:
                         txnDetailsList.addAll(txnDetailsRepository.findByExpenditureAmountGreaterThanEqual(Double.valueOf(values[0])));
+                        break;
+                    case BETWEEN:
+                        txnDetailsList.addAll(txnDetailsRepository.findByExpenditureAmountBetween(Double.valueOf(values[0]),Double.valueOf(values[1])));
                         break;
                 }
                 break;
             case EXPENSE_DATE:
                 switch (operators){
+                    case LESS_THAN:
+                        txnDetailsList.addAll(txnDetailsRepository.findByExpenseDateLessThan(new SimpleDateFormat("dd-MM-yyyy").parse(values[0])));
+                        break;
                     case LESS_THAN_EQUALS:
-                        txnDetailsList.addAll(txnDetailsRepository.findByExpenseDateLessThanEqual(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(values[0])));
+                        txnDetailsList.addAll(txnDetailsRepository.findByExpenseDateLessThanEqual(new SimpleDateFormat("dd-MM-yyyy").parse(values[0])));
+                        break;
+                    case GREATER_THAN:
+                        txnDetailsList.addAll(txnDetailsRepository.findByExpenseDateGreaterThan(new SimpleDateFormat("dd-MM-yyyy").parse(values[0])));
                         break;
                     case GREATER_THAN_EQUALS:
-                        txnDetailsList.addAll(txnDetailsRepository.findByExpenseDateGreaterThanEqual(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(values[0])));
+                        txnDetailsList.addAll(txnDetailsRepository.findByExpenseDateGreaterThanEqual(new SimpleDateFormat("dd-MM-yyyy").parse(values[0])));
                         break;
                     case EQUALS:
-                        txnDetailsList.addAll(txnDetailsRepository.findByExpenseDate(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(values[0])));
+                        //"yyyy-MM-dd hh:mm:ss"
+                        txnDetailsList.addAll(txnDetailsRepository.findByExpenseDate(new SimpleDateFormat("dd-MM-yyyy").parse(values[0])));
+                        break;
+                    case BETWEEN:
+                        txnDetailsList.addAll(txnDetailsRepository.findByExpenseDateBetween(new SimpleDateFormat("dd-MM-yyyy").parse(values[0]),new SimpleDateFormat("dd-MM-yyyy").parse(values[1])));
                         break;
                 }
                 break;
@@ -105,7 +128,7 @@ public class TxnService {
         list = convertToSearchResponse(txnDetailsList);
 
        if(list.isEmpty()){
-           throw new NoResourceFoundException("No transaction is found");
+           throw new CustomException("No transaction is found");
        }
         return list;
     }

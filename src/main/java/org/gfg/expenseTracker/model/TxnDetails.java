@@ -38,7 +38,7 @@ public class TxnDetails {
     @UpdateTimestamp
     private Date updatedAt;
 
-    private LocalDate expenseDate;
+    private Date expenseDate;
 
     private String expenseNote;
 
