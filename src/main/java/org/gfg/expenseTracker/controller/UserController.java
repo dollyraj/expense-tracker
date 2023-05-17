@@ -2,8 +2,10 @@ package org.gfg.expenseTracker.controller;
 
 import org.gfg.expenseTracker.model.User;
 import org.gfg.expenseTracker.request.CreateUserRequest;
+import org.gfg.expenseTracker.request.UpdateUserRequest;
 import org.gfg.expenseTracker.response.CreateUserResponse;
 import org.gfg.expenseTracker.response.GenericResponse;
+import org.gfg.expenseTracker.response.UpdateUserResponse;
 import org.gfg.expenseTracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,5 +47,17 @@ public class UserController {
                 .build();
         return genericResponse;
 
+    }
+
+    //update user profile
+    @PutMapping("/updateUserProfile")
+    public GenericResponse<UpdateUserResponse> updateUserProfile(@RequestBody @Valid UpdateUserRequest updateUserRequest,@RequestParam Integer userId){
+        UpdateUserResponse updateUserResponse= userService.updateUserProfile(updateUserRequest,userId);
+        GenericResponse genericResponse = GenericResponse.builder().
+                code(HttpStatus.OK.value()).
+                message("user details has been updated").
+                statusCode(0).data(updateUserResponse)
+                .build();
+        return genericResponse;
     }
 }

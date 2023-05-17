@@ -15,6 +15,7 @@ public class ExpenseTrackerApplication {
 	private UserRepository userRepository;
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(ExpenseTrackerApplication.class, args);
 	}
 

@@ -1,0 +1,65 @@
+
+ExpenseTracker --> expense tracking system
+
+
+Requirements:
+    a.	Add user
+    b.	Add expense type
+    c.	Add transactions
+    d.  Get transactions based on expenditure amount,expense date , expense type
+    e.  Get calculate expense in a day , in a week,in fifteen days
+    f.  Add exception when resource is not found
+    g.  Validate requestBody
+
+
+
+Entity:
+    User{
+     Id,
+     name,
+     email,
+     contact,
+     createdAt,
+     updatedAt,
+     userStatus
+    }
+    ExpenseTypes{
+    Id,
+    ExpenseType,
+    createdAt,
+    createdBy
+    }
+
+    TxnDetails{
+    Id,
+    expenditureAmount,
+    expenseType,
+    user,
+    createdAt,
+    updatedAt,
+    expenseDate,
+    expenseNote
+    }
+
+
+Entity relation:
+One user can contain many expensetypes  -> One to many relationship.
+One user contains many txns  -> One to many relationship.
+One expensetype contains many txns -> One to many
+
+
+
+APIs:
+        addUser ->POST
+        addExpenseType -> POST
+        addTxnDetails -> POST
+        fetchCalculatedResults -> GET
+        fetchTxn -> GET
+        getAllUsers -> GET
+        getAllExpenseType -> GET
+        searchUser ->GET
+
+
+
+
+
