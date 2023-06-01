@@ -1,5 +1,6 @@
 package org.gfg.expenseTracker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,7 +16,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@ToString
 @Table(name = "txnDetails")
 public class TxnDetails {
     @Id
@@ -25,8 +25,8 @@ public class TxnDetails {
     private Double expenditureAmount;
 
     @ManyToOne
-    @JoinColumn
-    private User user;
+    @JsonIgnore
+    private User createdBy;
 
     @ManyToOne
     @JoinColumn

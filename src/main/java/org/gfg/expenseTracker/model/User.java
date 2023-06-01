@@ -4,8 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -16,9 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@ToString
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +37,8 @@ public class User {
     @Column(length = 15, unique = true)
     private String contact;
 
+    private String password;
+
     @CreationTimestamp
     private Date createdAt;
 
@@ -43,9 +49,53 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserStatus userStatus;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
+
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<TxnDetails> txnDetails;
+    private List<TxnDetails> txnDetailsList;
+
+    @OneToMany(mappedBy = "createdBy")
+    @JsonIgnore
+    private List<ExpenseTypes> expenseTypesList;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        list.add(new SimpleGrantedAuthority(this.userType.name()));
+        return list;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
     // txnDetails is not present in db
     // hibernate makes a query to keep this data
 

@@ -14,8 +14,8 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class CreateTxnRequest {
-    @NotBlank(message = "user email can't be blank")
-    private String userEmail;
+//    @NotBlank(message = "user email can't be blank")
+//    private String userEmail;
 
     private String expenseType;
     private Double expenditureCost;

@@ -31,14 +31,32 @@ public interface TxnDetailsRepository extends JpaRepository<TxnDetails, Integer>
     public List<TxnDetails> findByExpenseDateGreaterThan(Date date);
     public List<TxnDetails> findByExpenseDateGreaterThanEqual(Date parse);
     public List<TxnDetails> findByExpenseDateBetween(Date date1,Date date2);
-
-
-    // we don have support for getting aggregated in jpa
-    @Query(value = "select SUM(t.expenditure_amount) from txn_details t inner join user u where t.user_id = u.id and t.expense_date >=:date and u.id = :userId", nativeQuery = true )
-    public Double getAggregatedData(LocalDate date, Integer userId);
-
     public List<TxnDetails> findByExpenseTypesExpenseType(String valueOf);
 
+    // we do not have support for getting aggregated in jpa
+    @Query(value = "select SUM(t.expenditure_amount) from txn_details t inner join user u where t.created_by_id = u.id and t.expense_date >=:date and u.id = :userId", nativeQuery = true )
+    public Double getAggregatedData(LocalDate date, Integer userId);
+
+
+
+    public List<TxnDetails> findBycreatedByIdAndExpenditureAmount(Integer Id,Double value);
+
+    public List<TxnDetails> findBycreatedByIdAndExpenditureAmountLessThan(Integer id,Double value);
+    public List<TxnDetails> findBycreatedByIdAndExpenditureAmountLessThanEqual(Integer id,Double value);
+
+    public  List<TxnDetails> findBycreatedByIdAndExpenditureAmountGreaterThan(Integer id,Double value);
+    public  List<TxnDetails> findBycreatedByIdAndExpenditureAmountGreaterThanEqual(Integer id,Double value);
+
+    public List<TxnDetails> findBycreatedByIdAndExpenditureAmountBetween(Integer id,Double value1,Double val2);
+
+    public List<TxnDetails> findBycreatedByIdAndExpenseDate(Integer id,Date date);
+    public List<TxnDetails> findBycreatedByIdAndExpenseDateLessThan(Integer id,Date date);
+    public List<TxnDetails> findBycreatedByIdAndExpenseDateLessThanEqual(Integer id,Date date);
+
+    public List<TxnDetails> findBycreatedByIdAndExpenseDateGreaterThan(Integer id,Date date);
+    public List<TxnDetails> findBycreatedByIdAndExpenseDateGreaterThanEqual(Integer id,Date parse);
+    public List<TxnDetails> findBycreatedByIdAndExpenseDateBetween(Integer id,Date date1,Date date2);
+    public List<TxnDetails> findBycreatedByIdAndExpenseTypesExpenseType(Integer id,String valueOf);
 
 
 }

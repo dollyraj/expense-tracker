@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/expenseTracker")
+@RequestMapping("/v1/expenseTracker")
 public class ExpenseTypeController {
 
     @Autowired

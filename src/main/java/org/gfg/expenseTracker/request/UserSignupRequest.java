@@ -12,19 +12,21 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Builder
 @ToString
-public class CreateUserRequest {
+public class UserSignupRequest {
+    private String username;
     @NotBlank(message = "user email should not blank.")
-    private String email;
+    private String userEmail;
 
-    private String name;
+
 
     @NotNull(message = "user contact can't be null")
     private  String contact;
 
+    private String password;
     public User toUser() {
         return  User.builder().
-                name(this.name).
-                email(this.email).
+                name(this.username).
+                email(this.userEmail).
                 contact(this.contact).
                 build();
     }

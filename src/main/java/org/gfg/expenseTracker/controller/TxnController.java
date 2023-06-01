@@ -17,7 +17,7 @@ import java.text.ParseException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/expenseTracker")
+@RequestMapping("/v1/expenseTracker")
 public class TxnController {
 
     @Autowired
@@ -60,9 +60,9 @@ public class TxnController {
 
     // api -> one day expense, 7 day expense, 15 days
     // fetch calculated expense
-    @GetMapping("/fetchCalculatedResults")
-    public GenericResponse<AnalyticalResponse> fetchCalculatedResponse(@RequestParam("email") String email){
-        AnalyticalResponse analyticalResponse = txnService.fetchCalculatedResponse(email);
+    @GetMapping("/fetchCalculatedResults")                            //@RequestParam("email") String email
+    public GenericResponse<AnalyticalResponse> fetchCalculatedResponse(){
+        AnalyticalResponse analyticalResponse = txnService.fetchCalculatedResponse();
         GenericResponse genericResponse = GenericResponse.builder().
                 code(HttpStatus.OK.value()).
                 message("Calculated result has been fetched").
@@ -74,4 +74,18 @@ public class TxnController {
 
     // if we don't have any business logic -> repository
 
+    @GetMapping("/fetchUserTxn")
+
+    public GenericResponse<List<TxnSearchResponse>> fetchTxnDetails(@RequestParam("filter")TxnFilterType txnFilterType,
+                                                                    @RequestParam("operator")TxnFilterOperators operators,
+                                                                    @RequestParam("values") String value) throws ParseException {
+        String[] values = value.split(",");
+        List<TxnSearchResponse> listOfTxnSearchResp = txnService.fetchLoggedInUserTxnDetails(txnFilterType,operators,values);
+        GenericResponse genericResponse = GenericResponse.builder().
+                code(HttpStatus.OK.value()).
+                message("Search result is following:").
+                statusCode(0).data(listOfTxnSearchResp)
+                .build();
+        return genericResponse;
+    }
 }

@@ -27,7 +27,10 @@ public class ExpenseTypes {
     @CreationTimestamp
     private Date createdAt;
 
-    private String createdBy;
+    @ManyToOne
+    @JoinColumn
+    @JsonIgnore
+    private User createdBy;
 
     @OneToMany(mappedBy = "expenseTypes")
     @JsonIgnore

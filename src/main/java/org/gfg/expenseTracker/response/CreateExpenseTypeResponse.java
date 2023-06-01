@@ -11,5 +11,5 @@ public class CreateExpenseTypeResponse {
 
     Integer userId;
     Integer expenseId;
-
+    String  message;
 }

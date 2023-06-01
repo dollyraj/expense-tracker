@@ -10,5 +10,5 @@ import lombok.*;
 public class CreateTxnResponse {
     private Integer  userId;
     private Integer expenseId;
-
+    private String message;
 }
