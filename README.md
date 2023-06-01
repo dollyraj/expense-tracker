@@ -27,32 +27,32 @@ The application defines following CRUD APIs.
 
 ### User API
 
-|Method|Url|Description|
-|----|---|-----------|
-|POST|/v1/expenseTracker/signup/{type}|Add/signup user|
+|Method|Url|Description|Sample|
+|----|---|-----------|-------|
+|POST|/v1/expenseTracker/signup/{type}|Add/signup user|[JSON](https://github.com/dollyraj/expense-tracker#create-user--v1expensetrackersignuptype)|
 |GET|/v1/expenseTracker/getAllUsers|Get all user list|
-|PUT|/v1/expenseTracker/updateuserProfile|update user profile|
+|PUT|/v1/expenseTracker/updateuserProfile|update user profile|[JSON](https://github.com/dollyraj/expense-tracker#update-user-profile--v1expensetrackerupdateuserprofile)|
 
 
 ### Expense Type API
 
-|Method|Url|Description|
-|----|---|-----------|
-|POST|/v1/expenseTracker/addExpenseType|Add expense type|
+|Method|Url|Description|Sample|
+|----|---|-----------|-------|
+|POST|/v1/expenseTracker/addExpenseType|Add expense type|[JSON](https://github.com/dollyraj/expense-tracker#create-expense-type--v1expensetrackeraddexpensetype)|
 |GET|/v1/expenseTracker/getAllexpenseTypes|Get all expense types list|
 
 ### Txn(transaction) API
 
-|Method|Url|Description|
-|----|---|-----------|
-|POST|/v1/expenseTracker/addUserTxn|Add txn made by a user|
+|Method|Url|Description|Sample|
+|----|---|-----------|--------|
+|POST|/v1/expenseTracker/addUserTxn|Add txn made by a user|[JSON](https://github.com/dollyraj/expense-tracker#create-user-transaction--v1expensetrackeraddusertxn)|
 |GET|/v1/expenseTracker/fetchTxn|Get txn list based on filters provided(expense date,expenditure amount,expense type)|
 |GET|/v1/expenseTracker/fetchCalculatedResults|Get total expense done by a user|
 
 
 ### Test them using postman or any other rest client.
 
-Create User ->/v1/expenseTracker/signup/{type}
+#### Create User ->/v1/expenseTracker/signup/{type}
 
 ```http
 {
@@ -63,14 +63,14 @@ Create User ->/v1/expenseTracker/signup/{type}
 }
 ```
 
-Update User Profile ->/v1/expenseTracker/updateuserProfile
+#### Update User Profile ->/v1/expenseTracker/updateUserProfile
 ```http
 {
     "name":"admin2",
     "contact":8790562345
 }
 ```
-Create Expense Type ->/v1/expenseTracker/addExpenseType
+### Create Expense Type ->/v1/expenseTracker/addExpenseType
 
 ```http
 {
@@ -81,7 +81,7 @@ Create Expense Type ->/v1/expenseTracker/addExpenseType
 }
 ```
 
-Create User Transaction ->/v1/expenseTracker/addUserTxn
+### Create User Transaction ->/v1/expenseTracker/addUserTxn
 
 ```http
 {
