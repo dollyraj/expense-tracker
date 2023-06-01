@@ -50,3 +50,44 @@ The application defines following CRUD APIs.
 |GET|/v1/expenseTracker/fetchCalculatedResults|Get total expense done by a user|
 
 
+### Test them using postman or any other rest client.
+
+Create User ->/v1/expenseTracker/signup/{type}
+
+```http
+{
+    "username":"user2",
+    "userEmail":"user2@gmail.com",
+    "contact":"91234567828",
+    "password":"pass123"
+}
+```
+
+Update User Profile ->/v1/expenseTracker/updateuserProfile
+```http
+{
+    "name":"admin2",
+    "contact":8790562345
+}
+```
+Create Expense Type ->/v1/expenseTracker/addExpenseType
+
+```http
+{
+    "expenseType":"TRAVEL",
+    "expenditureCost":200,
+    "expenseDate":"2023-05-30",
+    "expenseNote":"travel expense"
+}
+```
+
+Create User Transaction ->/v1/expenseTracker/addUserTxn
+
+```http
+{
+    "expenseType":"TRAVEL",
+    "expenditureCost":200,
+    "expenseDate":"2023-05-30",
+    "expenseNote":"travel expense"
+}
+```
